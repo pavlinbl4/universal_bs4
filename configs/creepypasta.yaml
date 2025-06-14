@@ -1,0 +1,11 @@
+name: "Creepypasta"
+base_url: "https://www.creepypasta.com/"
+selectors:
+  items:
+    # находим список фрагментов текста
+    list: "div.entry-content.clear > p"
+pagination:
+  type: "url_param"
+  param: "page"
+  start: 1
+  step: 1
