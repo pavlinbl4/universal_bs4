@@ -3,26 +3,18 @@ from pathlib import Path
 import yaml
 from loguru import logger
 
-from engines.parser_engine import ParserEngine
-
-
-def load_config(site_name):
-    config_path = Path(f"configs/{site_name}.yaml")
-    if not config_path.exists():
-        raise FileNotFoundError(f"Конфиг для {site_name} не найден")
-    logger.info(f"Config for  {site_name} load successfully")
-    with open(config_path, 'r', encoding='utf-8') as f:
-        return yaml.safe_load(f)
+from core.config_loader import ConfigLoader
+from core.parser_engine import ParserEngine
 
 
 def main():
-
-    # указываю название сайта ( для получение настроек из yaml файла) и адрес
+    # указываю название сайта (для получения настроек из yaml файла) и адрес
     site = 'creepypasta'
     url = 'https://www.creepypasta.com/mistress-inviere/'
 
     try:
-        config = load_config(site)
+        config = ConfigLoader.load(site)
+        logger.info(f'Available configs :{ConfigLoader.list_available()}')
         parser = ParserEngine(config)
         results = parser.parse(url, max_pages=1)
 
